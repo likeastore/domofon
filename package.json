@@ -12,5 +12,12 @@
     "crm"
   ],
   "author": "alexander.beletsky@gmail.com",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "ya-csv": "~0.9.3",
+    "async": "~0.2.10",
+    "single-line-log": "~0.3.1",
+    "underscore": "~1.6.0",
+    "mongojs": "~0.10.1"
+  }
 }

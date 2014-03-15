@@ -1,5 +1,5 @@
 var config = {
-	connection: 'mongodb://localhost:27017/likeastoredb',
+	connection: 'mongodb://localhost:27017/domofondb',
 	authKey: 'ffbac26ce2b99cfc3c60a7eb911a108d4823ba1a',
 	tokenTtl: 60,
 	logentries: {
