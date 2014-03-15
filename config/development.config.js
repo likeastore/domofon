@@ -1,13 +1,13 @@
 var config = {
 	connection: 'mongodb://localhost:27017/domofondb',
-	authKey: 'ffbac26ce2b99cfc3c60a7eb911a108d4823ba1a',
-	tokenTtl: 60,
-	logentries: {
-		token: null
+
+	services: {
+		logentries: {},
+		mandrill: {}
 	},
 
-	users: {
-		'likeastore': '$2a$12$8SaOzxMPPwHAwbkKC9Y4pumZdgh8LJ4V1BXL5FfMmpVWcz.i4Om.2'
+	applications: {
+		'app': 'a603f1619f7a4b9f96bec79368584967'
 	}
 };
 
