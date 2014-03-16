@@ -3,7 +3,7 @@ var express = require('express');
 var package = require('../package');
 var secure = require('./middleware/secure');
 var cors = require('./middleware/cors');
-var users = require('./queues/users');
+var users = require('./models/users');
 
 var app = express();
 

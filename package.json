@@ -19,6 +19,7 @@
     "single-line-log": "~0.3.1",
     "underscore": "~1.6.0",
     "mongojs": "~0.10.1",
-    "express": "~3.4.8"
+    "express": "~3.4.8",
+    "moment": "~2.5.1"
   }
 }
