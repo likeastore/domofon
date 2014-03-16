@@ -31,7 +31,7 @@ app.get('/api/users', function (req, res, next) {
 });
 
 app.post('/api/users', function (req, res, next) {
-	users.save(req.body, function (err) {
+	users.save(req.body, {}, function (err) {
 		if (err) {
 			return next(err);
 		}

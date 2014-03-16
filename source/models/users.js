@@ -47,7 +47,7 @@ function createNew(user) {
 }
 
 function save (user, options, callback) {
-	db.users.findOne({email: user.email}, function (err, foundUser) {
+	db.users.findOne({email: user.email, app: user.app}, function (err, foundUser) {
 		if (err) {
 			return callback(err);
 		}
@@ -56,7 +56,7 @@ function save (user, options, callback) {
 	});
 }
 
-module.export = {
+module.exports = {
 	find: find,
 	save: save
 };

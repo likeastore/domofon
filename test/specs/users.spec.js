@@ -3,7 +3,11 @@ var testUtils = require('../utils');
 var moment = require('moment');
 
 describe('users.spec.js', function () {
-	var user, users, app, error, response;
+	var url, app, payload, error, response, results;
+
+	beforeEach(function () {
+		url = testUtils.baseUrl() + '/api/users';
+	});
 
 	beforeEach(function () {
 		app = testUtils.createApp();
@@ -11,8 +15,23 @@ describe('users.spec.js', function () {
 
 	describe('when creating users', function () {
 		describe('when user created', function () {
+			beforeEach(function () {
+				payload = {app: app, email: 'test@email.com', createdAt: moment().valueOf() };
+			});
 
+			beforeEach(function (done) {
+				request.post({url: url, body: payload, json: true}, function (err, resp, body) {
+					error = err;
+					response = resp;
+					results = body;
+					done(err, body);
+				});
+			});
 
+			it ('should respond 201 (created)', function () {
+				console.log(results);
+				expect(response.statusCode).to.equal(201);
+			});
 
 			it('should be created', function () {
 
