@@ -1,7 +1,18 @@
+var request = require('request');
+var testUtils = require('../utils');
+var moment = require('moment');
+
 describe('users.spec.js', function () {
+	var user, users, app, error, response;
+
+	beforeEach(function () {
+		app = testUtils.createApp();
+	});
 
 	describe('when creating users', function () {
 		describe('when user created', function () {
+
+
 
 			it('should be created', function () {
 
