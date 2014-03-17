@@ -29,20 +29,27 @@ describe('users.spec.js', function () {
 			});
 
 			it ('should respond 201 (created)', function () {
-				console.log(results);
 				expect(response.statusCode).to.equal(201);
 			});
 
-			it('should be created', function () {
+			describe('and get user', function () {
+				beforeEach(function (done) {
+					request.get({url: url + '?app=' + app, json: true}, function (err, resp, body) {
+						error = err;
+						response = resp;
+						results = body;
+						done(err, body);
+					});
+				});
 
-			});
+				it('should respond 200 (ok)', function () {
+					expect(response.statusCode).to.equal(200);
+				});
 
-			it('should have lastImpressionAt', function () {
-
-			});
-
-			it('should have session count as one', function () {
-
+				it('should have 1 user', function () {
+					console.log(results.data);
+					expect(results.data).to.have.length(1);
+				});
 			});
 		});
 
