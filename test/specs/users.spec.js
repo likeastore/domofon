@@ -47,15 +47,48 @@ describe('users.spec.js', function () {
 				});
 
 				it('should have 1 user', function () {
-					console.log(results.data);
 					expect(results.data).to.have.length(1);
 				});
 			});
 		});
 
 		describe('when user updated', function () {
-			it('should be updated', function () {
+			var user;
 
+			beforeEach(function () {
+				payload = {app: app, email: 'test@email.com', createdAt: moment().valueOf() };
+			});
+
+			beforeEach(function (done) {
+				request.post({url: url, body: payload, json: true}, function (err, resp, body) {
+					error = err;
+					response = resp;
+					results = body;
+					done(err, body);
+				});
+			});
+
+			beforeEach(function (done) {
+				request.get({url: url + '?app=' + app, json: true}, function (err, resp, body) {
+					error = err;
+					response = resp;
+					results = body;
+					user = results.data[0];
+					done(err, body);
+				});
+			});
+
+			beforeEach(function (done) {
+				request.post({url: url, body: payload, json: true}, function (err, resp, body) {
+					error = err;
+					response = resp;
+					results = body;
+					done(err, body);
+				});
+			});
+
+			it('should be updated', function () {
+				expect(response.statusCode).to.equal(200);
 			});
 
 			it('should have update lastImpressionAt', function () {
@@ -75,20 +108,6 @@ describe('users.spec.js', function () {
 
 				});
 			});
-		});
-	});
-
-	describe('when getting users', function () {
-		describe('if empty', function () {
-
-		});
-
-		describe('if for one page', function () {
-
-		});
-
-		describe('if for two pages', function () {
-
 		});
 	});
 });
