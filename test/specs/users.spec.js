@@ -32,7 +32,7 @@ describe('users.spec.js', function () {
 				expect(response.statusCode).to.equal(201);
 			});
 
-			describe('and get user', function () {
+			describe('check user properites', function () {
 				beforeEach(function (done) {
 					request.get({url: url + '?app=' + app, json: true}, function (err, resp, body) {
 						error = err;
@@ -87,25 +87,65 @@ describe('users.spec.js', function () {
 				});
 			});
 
-			it('should be updated', function () {
-				expect(response.statusCode).to.equal(200);
+			it('should respond 201 (ok)', function () {
+				expect(response.statusCode).to.equal(201);
 			});
 
-			it('should have update lastImpressionAt', function () {
 
-			});
+			describe('check user properites', function () {
+				var updatedUser;
 
-			it('should have session count as one', function () {
+				beforeEach(function (done) {
+					request.get({url: url + '?app=' + app, json: true}, function (err, resp, body) {
+						error = err;
+						response = resp;
+						results = body;
+						updatedUser = results.data[0];
+						done(err, body);
+					});
+				});
 
+				it('should have update lastImpressionAt', function () {
+					expect(updatedUser.lastImpressionAt).to.be.greaterThan(user.lastImpressionAt);
+				});
+
+				it('should have session count as one', function () {
+					expect(updatedUser.sessionCount).to.equal(1);
+				});
 			});
 
 			describe('after half of hour', function () {
-				beforeEach(function () {
-					// hack lastImpressionAt in db
+				var updatedUser;
+
+				beforeEach(function (done) {
+					testUtils.updateProperty(user, 'lastImpressionAt', user.lastImpressionAt - 30 * 60 * 1000, done);
 				});
 
-				it('should session incremented', function () {
+				beforeEach(function (done) {
+					request.post({url: url, body: payload, json: true}, function (err, resp, body) {
+						error = err;
+						response = resp;
+						results = body;
+						done(err, body);
+					});
+				});
 
+				beforeEach(function (done) {
+					request.get({url: url + '?app=' + app, json: true}, function (err, resp, body) {
+						error = err;
+						response = resp;
+						results = body;
+						updatedUser = results.data[0];
+						done(err, body);
+					});
+				});
+
+				it('should have update lastImpressionAt', function () {
+					expect(updatedUser.lastImpressionAt).to.be.greaterThan(user.lastImpressionAt);
+				});
+
+				it('should session be incremented', function () {
+					expect(updatedUser.sessionCount).to.equal(2);
 				});
 			});
 		});

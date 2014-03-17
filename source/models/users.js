@@ -22,17 +22,7 @@ function find (q, callback) {
 }
 
 function operation(user, foundUser, options) {
-	return foundUser ? updateProperties(user, foundUser, options) : createNew(user, options);
-}
-
-function updateProperties(user, updatedUser) {
-	return {
-		execute: function (callback) {
-			user.lastImpressionAt = moment().utc().valueOf();
-
-			db.users.update({email: user.email}, {$set: updatedUser, $inc: {sessionCount: 1}});
-		}
-	};
+	return foundUser ? updateProperties(foundUser, user, options) : createNew(user, options);
 }
 
 function createNew(user) {
@@ -42,6 +32,16 @@ function createNew(user) {
 			user.lastImpressionAt = moment().utc().valueOf();
 
 			db.users.save(user, callback);
+		}
+	};
+}
+
+function updateProperties(foundUser, user) {
+	return {
+		execute: function (callback) {
+			user.lastImpressionAt = moment().utc().valueOf();
+			var sessionIncrement = user.lastImpressionAt - foundUser.lastImpressionAt >= 30 * 60 * 1000 ? 1 : 0;
+			db.users.update({email: foundUser.email, app: foundUser.app}, {$set: user, $inc: {sessionCount: sessionIncrement}}, callback);
 		}
 	};
 }
