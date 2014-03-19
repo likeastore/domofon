@@ -36,7 +36,6 @@
 	"expr": true,
 	"forin": false,
 	"immed": true,
-	"jquery": true,
 	"latedef": false,
 	"laxbreak": false,
 	"multistr": true,

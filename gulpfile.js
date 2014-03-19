@@ -1,11 +1,9 @@
 var gulp = require('gulp');
-
-// Load plugins
 var $ = require('gulp-load-plugins')();
 
 // Scripts
 gulp.task('scripts', function () {
-return gulp.src('public/js/app.js')
+return gulp.src('public/js/main.js')
 	.pipe($.browserify({
 		insertGlobals: true,
 		transform: ['reactify']
@@ -13,8 +11,7 @@ return gulp.src('public/js/app.js')
 	//.pipe($.jshint('.jshintrc'))
 	//.pipe($.jshint.reporter('default'))
 	.pipe(gulp.dest('public/build'))
-	.pipe($.size())
-	.pipe($.connect.reload());
+	.pipe($.size());
 });
 
 // Clean
@@ -31,7 +28,7 @@ gulp.task('default', ['clean'], function () {
 });
 
 // Watch
-gulp.task('watch', function () {
+gulp.task('watch', ['build'], function () {
 	$.nodemon({script: 'app.js', ignore: ['public/build']})
 		.on('change', ['build']);
 });
