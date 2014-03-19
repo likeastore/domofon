@@ -31991,13 +31991,15 @@ var React = require('React');
 
 var component = React.createClass({displayName: 'component',
 	render: function () {
-		return React.DOM.div(null, "Hello World");
+		return (
+			React.DOM.div(null, "Hello ", name)
+		);
 	}
 });
 
 var MainView = Backbone.View.extend({
 	render: function () {
-		React.renderComponent(component(null), this.el);
+		React.renderComponent(component( {name:"world"}), this.el);
 		return this;
 	}
 });
@@ -32034,7 +32036,7 @@ var client = require('./client');
 
 client.init(window, {root: '/'});
 router.init();
-}).call(this,require("/Users/alexanderbeletsky/Development/Projects/likeastore/domofon/node_modules/gulp-browserify/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_d2d43b15.js","/")
+}).call(this,require("/Users/alexanderbeletsky/Development/Projects/likeastore/domofon/node_modules/gulp-browserify/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_f3ad8401.js","/")
 },{"./client":141,"./router":143,"/Users/alexanderbeletsky/Development/Projects/likeastore/domofon/node_modules/gulp-browserify/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":136,"buffer":133}],143:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var Backbone = require('backbone');
