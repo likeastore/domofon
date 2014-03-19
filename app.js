@@ -1,34 +1,56 @@
-var respawn = require('respawn');
-var util = require('util');
-var logger = require('./source/utils/logger');
+var http = require('http');
+var express = require('express');
+var swig = require('swig');
+var path = require('path');
 
-function monitor(a, p) {
-	var proc = respawn(p, {
-		cwd: '.',
-		maxRestarts: 10,
-		sleep: 1000,
-	});
+var app = express();
+var env = process.env.NODE_ENV || 'development';
 
-	proc.on('spawn', function () {
-		util.puts(a + ' monitor started');
-	});
-
-	proc.on('exit', function (code, signal) {
-		logger.fatal({app: a, msg: 'process exited, code: ' + code + ' signal: ' + signal});
-	});
-
-	proc.on('stdout', function (data) {
-		util.puts(data.toString());
-	});
-
-	proc.on('stderr', function (data) {
-		logger.error({app: a, msg: 'process error', data: data.toString()});
-	});
-
-	return proc;
-}
-
-[monitor('api', ['node', 'source/api.js']), monitor('site', ['node', 'source/site.js'])].forEach(function (m) {
-	m.start();
+app.configure(function(){
+	app.set('port', process.env.PORT || 5004);
+	app.engine('html', swig.renderFile);
+	app.set('views', __dirname + '/views');
+	app.set('view engine', 'html');
+	app.use(express.cookieParser());
+	app.use(express.json());
+	app.use(express.urlencoded());
+	app.use(express.methodOverride());
+	app.use(app.router);
 });
 
+app.configure('development', function() {
+	app.set('view cache', false);
+	swig.setDefaults({ cache: false });
+	app.use(express.logger('dev'));
+	app.use(express.static(path.join(__dirname, '/public')));
+	app.use(express.errorHandler());
+});
+
+app.configure('staging', function () {
+	app.set('view cache', false);
+	swig.setDefaults({ cache: false });
+	//app.use(express.basicAuth(config.access.user, config.access.password));
+	app.use(express.logger('short'));
+	app.use(express.compress());
+	app.use(express.static(path.join(__dirname, '/public')));
+});
+
+app.configure('production', function() {
+	app.use(express.logger('short'));
+	app.use(express.compress());
+	app.use(express.static(path.join(__dirname, '/public')));
+});
+
+app.configure('test', function() {
+	app.use(express.static(path.join(__dirname, '/public')));
+	app.use(express.errorHandler());
+});
+
+
+app.get('/', function (req, res) {
+	res.render('dashboard', {title: 'Domofon dashboard', mode: env});
+});
+
+http.createServer(app).listen(app.get('port'), function (err) {
+	console.log('domofon site started on port ' + app.get('port') + ' env ' + env);
+});
