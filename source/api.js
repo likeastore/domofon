@@ -8,7 +8,7 @@ var users = require('./models/users');
 var app = express();
 
 app.configure(function(){
-	app.set('port', process.env.PORT || 5005);
+	app.set('port', process.env.API_PORT || 5005);
 	app.use(express.bodyParser());
 	app.use(cors);
 	app.use(express.methodOverride());
@@ -42,5 +42,5 @@ app.post('/api/users', function (req, res, next) {
 
 http.createServer(secure(app)).listen(app.get('port'), function (err) {
 	var env = process.env.NODE_ENV || 'development';
-	console.log('domofon server started on port ' + app.get('port') + ' env ' + env);
+	console.log('domofon api started on port ' + app.get('port') + ' env ' + env);
 });
