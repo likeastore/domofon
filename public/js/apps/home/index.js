@@ -1,6 +1,10 @@
+var $ = require('jquery');
+var MainView = require('./views/main');
+
 var app = {
 	run: function () {
-		console.log('home application started');
+		var view = new MainView();
+		$('.app').html(view.render().el);
 	}
 };
 

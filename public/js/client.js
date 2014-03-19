@@ -1,6 +1,8 @@
 var $ = require('jquery');
 var Backbone = require('Backbone');
 
+Backbone.$ = $;
+
 var client = {
 	init: function (win, app) {
 		$(win.document).on("click", "a[href]:not([data-bypass])", function(evt) {
